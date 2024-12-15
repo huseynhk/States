@@ -57,7 +57,6 @@ function PokemonTeamManager() {
     <div style={{ maxWidth: "1000px", margin: "15px auto", textAlign: "center" }}>
       <h1>Pokémon Team Manager</h1>
 
-      <h3 >Add Pokémon to Your Team</h3>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {pokemonList.map((pokemon) => (
           <div
@@ -137,7 +136,7 @@ function PokemonTeamManager() {
                     >
                       Save
                     </button>
-                    <input
+                    {/* <input
                       type="text"
                       value={nickname}
                       onChange={(e) => setNickname(e.target.value)}
@@ -160,7 +159,7 @@ function PokemonTeamManager() {
                         borderRadius: "4px",
                         border: "1px solid #ccc",
                       }}
-                    />
+                    /> */}
                   </span>
                 ) : (
                   pokemon.nickname
@@ -169,7 +168,7 @@ function PokemonTeamManager() {
             </div>
 
             <div>
-              {editingId !== pokemon.id && (
+              {/* {editingId !== pokemon.id && (
                 <button
                   onClick={() =>
                     startEditingNickname(pokemon.id, pokemon.nickname, pokemon.image)
@@ -186,7 +185,7 @@ function PokemonTeamManager() {
                 >
                   Edit Nickname & Image
                 </button>
-              )}
+              )} */}
               <button
                 onClick={() => deletePokemon(pokemon.id)}
                 style={{
