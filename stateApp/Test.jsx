@@ -209,15 +209,26 @@ function PokemonTeamManager() {
       </ul>
 
       <h3>Total Pokémon in Team: {totalPokemon}</h3>
-
-      <div style={{ marginTop: "20px" }}>
-        <h4>Individual Pokémon Count:</h4>
-        {team.map((pokemon) => (
-          <div key={pokemon.id} style={{ marginBottom: "10px" }} >
-            <strong className="text-success">{pokemon.nickname}</strong>: <strong className="text-danger me-2">{pokemon.count}</strong>
-            <strong >{pokemon.count > 1 ? "Pokémons" : "Pokémon"}</strong>
-          </div>
-        ))}
+      <div className="my-4">
+        <h4 className="mb-3">Individual Pokémon Count</h4>
+        <table className="table table-bordered table-striped">
+          <thead className="table-light">
+            <tr>
+              <th scope="col">Nickname</th>
+              <th scope="col">Count</th>
+              <th scope="col">Label</th>
+            </tr>
+          </thead>
+          <tbody>
+            {team.map((pokemon) => (
+              <tr key={pokemon.id} className="fw-bold">
+                <td className="text-success">{pokemon.nickname}</td>
+                <td className="text-danger">{pokemon.count}</td>
+                <td>{pokemon.count > 1 ? "Pokémons" : "Pokémon"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
