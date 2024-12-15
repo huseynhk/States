@@ -9,15 +9,20 @@ const pokemonList = [
 ];
 
 function PokemonTeamManager() {
-  const [team, setTeam] = useState([]);
+  const [team, setTeam] = useState(() => {
+    const savedTeam = localStorage.getItem("pokemonTeam");
+    return savedTeam ? JSON.parse(savedTeam) : [];
+  });
   const [editingId, setEditingId] = useState(null);
   const [nickname, setNickname] = useState("");
   const [imageURL, setImageURL] = useState("");
 
   const addPokemonToTeam = (pokemon) => {
     if (!team.some((item) => item.id === pokemon.id)) {
-      const newPokemon = { ...pokemon, nickname: pokemon.name }; 
-      setTeam((prevTeam) => [...prevTeam, newPokemon]);
+      const newPokemon = { ...pokemon, nickname: pokemon.name };
+      const updatedTeam = [...team, newPokemon];
+      setTeam(updatedTeam);
+      localStorage.setItem("pokemonTeam", JSON.stringify(updatedTeam));
     } else {
       alert(`${pokemon.name} is already in your team!`);
     }
@@ -26,54 +31,75 @@ function PokemonTeamManager() {
   const startEditingNickname = (id, currentNickname, currentImage) => {
     setEditingId(id);
     setNickname(currentNickname);
-    setImageURL(currentImage); 
+    setImageURL(currentImage);
   };
 
   const updatePokemon = (id) => {
-    setTeam((prevTeam) =>
-      prevTeam.map((pokemon) =>
-        pokemon.id === id
-          ? { ...pokemon, nickname: nickname, image: imageURL }
-          : pokemon
-      )
+    const updatedTeam = team.map((pokemon) =>
+      pokemon.id === id ? { ...pokemon, nickname, image: imageURL } : pokemon
     );
+    setTeam(updatedTeam);
+    localStorage.setItem("pokemonTeam", JSON.stringify(updatedTeam)); 
     setEditingId(null);
     setNickname("");
     setImageURL("");
   };
 
   const deletePokemon = (id) => {
-    setTeam((prevTeam) => prevTeam.filter((pokemon) => pokemon.id !== id));
+    const updatedTeam = team.filter((pokemon) => pokemon.id !== id);
+    setTeam(updatedTeam);
+    localStorage.setItem("pokemonTeam", JSON.stringify(updatedTeam)); 
   };
 
   const totalPokemon = team.length;
 
   return (
-    <div style={{ maxWidth: "700px", margin: "20px auto", textAlign: "center" }}>
+    <div style={{ maxWidth: "1000px", margin: "15px auto", textAlign: "center" }}>
       <h1>Pokémon Team Manager</h1>
 
-      <h3>Add Pokémon to Your Team</h3>
-      <div>
+      <h3 >Add Pokémon to Your Team</h3>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {pokemonList.map((pokemon) => (
-          <button
+          <div
             key={pokemon.id}
-            onClick={() => addPokemonToTeam(pokemon)}
             style={{
-              margin: "5px",
-              padding: "10px 20px",
-              backgroundColor: "#007bff",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
+              margin: "10px",
+              width: "175px",
+              height: "250px",
+              backgroundColor: "#f8f9fa",
+              borderRadius: "8px",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.4)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "10px",
             }}
           >
-            Add {pokemon.name}
-          </button>
+            <img
+              src={pokemon.image}
+              alt={pokemon.name}
+              style={{ width: "100px", height: "100px", objectFit: "contain" }}
+            />
+            <h4>{pokemon.name}</h4>
+            <button
+              onClick={() => addPokemonToTeam(pokemon)}
+              style={{
+                marginTop: "10px",
+                padding: "5px 10px",
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Add to Team
+            </button>
+          </div>
         ))}
       </div>
 
-      <h3>Your Pokémon Team</h3>
+      <h3 className="mt-2">Your Pokémon Team</h3>
       <ul style={{ listStyle: "none", padding: 0, marginTop: "20px" }}>
         {team.map((pokemon) => (
           <li
@@ -85,8 +111,8 @@ function PokemonTeamManager() {
               marginBottom: "10px",
               padding: "10px",
               backgroundColor: "#f8f9fa",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
+              borderRadius: "8px",
+              border: "1px solid #aba8a8",
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -96,7 +122,6 @@ function PokemonTeamManager() {
                 style={{ width: "50px", height: "50px", marginRight: "10px" }}
               />
               <span>
-                {pokemon.name} -{" "}
                 {editingId === pokemon.id ? (
                   <span>
                     <button
