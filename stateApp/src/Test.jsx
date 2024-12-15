@@ -59,10 +59,10 @@ function PokemonTeamManager() {
             style={{
               margin: "10px",
               width: "170px",
-              height: "250px",
+              height: "220px",
               backgroundColor: "#f8f9fa",
               borderRadius: "8px",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.4)",
+              boxShadow: "10 12px 18px rgba(250, 185, 243, 0.4)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -93,7 +93,7 @@ function PokemonTeamManager() {
         ))}
       </div>
 
-      <h3 className="mt-2">Your Pokémon Team</h3>
+      <h4 className="mt-2">Your Pokémon Team</h4>
       <ul style={{ listStyle: "none", padding: 0, marginTop: "20px" }}>
         {team.map((pokemon) => (
           <li
